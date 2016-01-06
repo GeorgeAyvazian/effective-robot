@@ -5,7 +5,7 @@ var MongoClient = require('mongodb').MongoClient;
 var ObjectID = require('mongodb').ObjectID;
 
 router.get('/api/v1/products', function (req, res, next) {
-    MongoClient.connect("mongodb://localhost:27017/test", function (err, db) {
+    MongoClient.connect("mongodb://test:test@ds039095.mongolab.com:39095/heroku_vt7zk583", function (err, db) {
         db.collection('products').find().toArray(function(err, docs) {
             res.json(docs);
         });
@@ -13,7 +13,7 @@ router.get('/api/v1/products', function (req, res, next) {
 });
 
 router.delete('/api/v1/products', function (req, res, next) {
-    MongoClient.connect("mongodb://localhost:27017/test", function (err, db) {
+    MongoClient.connect("mongodb://test:test@ds039095.mongolab.com:39095/heroku_vt7zk583", function (err, db) {
         req.body._id = ObjectID(req.body._id);
         db.collection('users').findOneAndDelete({_id: req.body._id}, {}, function () {
             console.log(arguments);
@@ -22,7 +22,7 @@ router.delete('/api/v1/products', function (req, res, next) {
 
 });
 router.post('/api/v1/products', function (req, res, next) {
-    MongoClient.connect("mongodb://localhost:27017/test", function (err, db) {
+    MongoClient.connect("mongodb://test:test@ds039095.mongolab.com:39095/heroku_vt7zk583", function (err, db) {
         req.body._id = ObjectID(req.body._id);
         db.collection('products').save(req.body, {}, function () {
             io.emit('save:product', req.body);
