@@ -5,6 +5,8 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var usersApi = require('./routes/users');
+var invoicesApi = require('./routes/invoices');
+var productsApi = require('./routes/products');
 
 var app = express();
 app.use(logger('dev'));
@@ -16,6 +18,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/',
     usersApi,
+    invoicesApi,
+    productsApi,
     function (req, res, next) {
       res.sendFile(__dirname + "/public/views/index.html");
     });
