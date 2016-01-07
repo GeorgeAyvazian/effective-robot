@@ -23,9 +23,9 @@ router.delete('/api/v1/products', function (req, res, next) {
 });
 router.post('/api/v1/products', function (req, res, next) {
     MongoClient.connect("mongodb://test:test@ds039095.mongolab.com:39095/heroku_vt7zk583", function (err, db) {
-        req.body._id = ObjectID(req.body._id);
-        db.collection('products').save(req.body, {}, function () {
+        db.collection('products').insert(req.body, {upsert: true, safe: true}, function () {
             io.emit('save:product', req.body);
+            res.json(req.body);
         });
     });
 });
