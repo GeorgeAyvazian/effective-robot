@@ -21,9 +21,19 @@ router.delete('/api/v1/products', function (req, res, next) {
     });
 
 });
+
 router.post('/api/v1/products', function (req, res, next) {
     MongoClient.connect("mongodb://test:test@ds039095.mongolab.com:39095/heroku_vt7zk583", function (err, db) {
-        db.collection('products').insert(req.body, {upsert: true, safe: true}, function () {
+        db.collection('products').insert(req.body, {w: 1}, function (err, doc) {
+            io.emit('save:product', req.body);
+            res.json(req.body);
+        });
+    });
+});
+
+router.put('/api/v1/products', function (req, res, next) {
+    MongoClient.connect("mongodb://test:test@ds039095.mongolab.com:39095/heroku_vt7zk583", function (err, db) {
+        db.collection('products').update({name: req.body.name}, {$set: {coll: req.body.coll}}, {w: 1}, function () {
             io.emit('save:product', req.body);
             res.json(req.body);
         });
