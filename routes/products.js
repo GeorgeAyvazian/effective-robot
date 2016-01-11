@@ -4,41 +4,39 @@ var io = require('../io');
 var MongoClient = require('mongodb').MongoClient;
 var ObjectID = require('mongodb').ObjectID;
 
-router.get('/api/v1/products', function (req, res, next) {
-    MongoClient.connect("mongodb://test:test@ds039095.mongolab.com:39095/heroku_vt7zk583", function (err, db) {
-        db.collection('products').find().toArray(function(err, docs) {
-            res.json(docs);
-        });
-    });
-});
+router.get('/api/v1/products', (req, res, next) =>
+    MongoClient.connect("mongodb://test:test@ds039095.mongolab.com:39095/heroku_vt7zk583", (err, db) => {
+        db.collection('products').find().toArray((err, doc) => res.json(doc));
+        db.close();
+    })
+);
 
-router.delete('/api/v1/products', function (req, res, next) {
-    MongoClient.connect("mongodb://test:test@ds039095.mongolab.com:39095/heroku_vt7zk583", function (err, db) {
+router.delete('/api/v1/products', (req, res, next) =>
+    MongoClient.connect("mongodb://test:test@ds039095.mongolab.com:39095/heroku_vt7zk583", (err, db) => {
         req.body._id = ObjectID(req.body._id);
-        db.collection('users').findOneAndDelete({_id: req.body._id}, {}, function () {
-            console.log(arguments);
-        });
-    });
+        db.collection('users').findOneAndDelete({_id: req.body._id}, {w: 1}, () => console.log(arguments));
+        db.close();
+    })
+);
 
-});
-
-router.post('/api/v1/products', function (req, res, next) {
-    MongoClient.connect("mongodb://test:test@ds039095.mongolab.com:39095/heroku_vt7zk583", function (err, db) {
-        db.collection('products').insert(req.body, {w: 1}, function (err, doc) {
+router.post('/api/v1/products', (req, res, next) =>
+    MongoClient.connect("mongodb://test:test@ds039095.mongolab.com:39095/heroku_vt7zk583", (err, db) => {
+        db.collection('products').insert(req.body, {w: 1}, (err, result) => {
             io.emit('save:product', req.body);
             res.json(req.body);
         });
-    });
-});
+        db.close();
+    })
+);
 
-router.put('/api/v1/products', function (req, res, next) {
-    MongoClient.connect("mongodb://test:test@ds039095.mongolab.com:39095/heroku_vt7zk583", function (err, db) {
-        db.collection('products').update({name: req.body.name}, {$set: {coll: req.body.coll}}, {w: 1}, function () {
-            io.emit('save:product', req.body);
+router.put('/api/v1/products', (req, res, next) =>
+    MongoClient.connect("mongodb://test:test@ds039095.mongolab.com:39095/heroku_vt7zk583", (err, db) => {
+        db.collection('products').update({[req.body.discriminatorField]: req.body.discriminatorValue}, {$set: {[req.body.changeField]: req.body.newValue}}, {w: 1}, () => {
+            io.emit('update:product', req.body);
             res.json(req.body);
         });
-    });
-});
-
+        db.close();
+    })
+);
 
 module.exports = router;

@@ -610,38 +610,19 @@
                                     <th>Product</th>
                                     <th>Serial #</th>
                                     <th>Subtotal</th>
+                                    <th>&nbsp;</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
+                                <tr ng-repeat="product in invoice.products">
                                     <td>
                                         <input type="hidden" ng-model="invoice.products[$index]._id" value="{{invoice.products[$index]._id}}"/>
                                         <input class="sleek" ng-model="invoice.products[$index].quantity" type="number" min="1" style="width:auto"/>
                                     </td>
-                                    <td><input class="sleek" ng-model="invoice.products[pIdx].name" ng-blur="updateProduct()" />  </td>
-                                    <td>455-981-221</td>
-                                    <td>$<input class="sleek" ng-model="invoice.products[pIdx].amount" ng-blur="updateProduct()" />  </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <input type="hidden" ng-model="invoice.products[++pIdx]._id" value="{{invoice.products[++pIdx]._id}}"/>
-                                        <input class="sleek" ng-model="invoice.products[++pIdx].quantity" type="number" min="1" style="width:auto"/>
-                                    </td>
-                                    <td><input class="sleek" ng-model="invoice.products[++pIdx].name" ng-blur="updateProduct()" />  </td>
-                                    <td>247-925-726</td>
-                                    <td>$50.00</td>
-                                </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Monsters DVD</td>
-                                    <td>735-845-642</td>
-                                    <td>$10.70</td>
-                                </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Grown Ups Blue Ray</td>
-                                    <td>422-568-642</td>
-                                    <td>$25.99</td>
+                                    <td><input class="sleek" ng-model="invoice.products[$index].name" ng-blur="updateProduct(invoice.products[$index])" /></td>
+                                    <td><input class="sleek" ng-model="invoice.products[$index].serialNumber" ng-change="updateProduct({ '_id': invoice.products[$index]._id, 'discriminatorField': 'name', 'discriminatorValue': '{{invoice.products[$index].name}}', 'changeField': 'serialNumber' , 'oldValue': '{{invoice.products[$index].serialNumber}}', 'newValue':invoice.products[$index].serialNumber })"/> </td>
+                                    <td>$ <input class="sleek" ng-model="invoice.products[$index].amount" ng-blur="updateProduct(invoice.products[$index])"/></td>
+                                    <td><a class="btn btn-app" ng-click="addNewProduct()"><i class="fa fa-plus"></i></a></td>
                                 </tr>
                                 </tbody>
                             </table>
