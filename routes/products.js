@@ -3,12 +3,14 @@ var router = express.Router();
 var io = require('../io');
 var MongoClient = require('mongodb').MongoClient;
 
-router.get('/api/v1/products', (req, res, next) =>
+router.get('/api/v1/products/:discriminatorField/:discriminatorValue', (req, res, next) =>
     MongoClient.connect("mongodb://test:test@ds039095.mongolab.com:39095/heroku_vt7zk583", (_, db) => {
-        db.collection('products').find().toArray((_, doc) => {
-            res.json(doc);
-            db.close();
-        });
+        db.collection('products')
+            .find(req.params.discriminatorField ? {[req.params.discriminatorField]: req.params.discriminatorValue} : {})
+            .toArray((_, doc) => {
+                res.json(doc);
+                db.close();
+            });
     })
 );
 
