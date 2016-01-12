@@ -16,32 +16,35 @@ router.get('/api/v1/products/:discriminatorField/:discriminatorValue', (req, res
 
 router.delete('/api/v1/products', (req, res, next) =>
     MongoClient.connect("mongodb://test:test@ds039095.mongolab.com:39095/heroku_vt7zk583", (_, db) => {
-        db.collection('products').findOneAndDelete({[req.body.discriminatorField]: req.body.discriminatorValue}, {w: 1}, () => {
-            io.emit('delete:product', req.body);
-            res.json(req.body);
-            db.close()
+        db.collection('products')
+            .findOneAndDelete({[req.body.discriminatorField]: req.body.discriminatorValue}, {w: 1}, () => {
+                io.emit('delete:product', req.body);
+                res.json(req.body);
+                db.close()
 
-        });
+            });
     })
 );
 
 router.post('/api/v1/products', (req, res, next) =>
     MongoClient.connect("mongodb://test:test@ds039095.mongolab.com:39095/heroku_vt7zk583", (_, db) => {
-        db.collection('products').insert(req.body, {w: 1}, () => {
-            io.emit('save:product', req.body);
-            res.json(req.body);
-            db.close();
-        });
+        db.collection('products')
+            .insert(req.body, {w: 1}, () => {
+                io.emit('save:product', req.body);
+                res.json(req.body);
+                db.close();
+            });
     })
 );
 
 router.put('/api/v1/products', (req, res, next) =>
     MongoClient.connect("mongodb://test:test@ds039095.mongolab.com:39095/heroku_vt7zk583", (_, db) => {
-        db.collection('products').update({[req.body.discriminatorField]: req.body.discriminatorValue}, {$set: {[req.body.changeField]: req.body.newValue}}, {w: 1}, () => {
-            io.emit('update:product', req.body);
-            res.json(req.body);
-            db.close();
-        });
+        db.collection('products')
+            .update({[req.body.discriminatorField]: req.body.discriminatorValue}, {$set: {[req.body.changeField]: req.body.newValue}}, {w: 1}, () => {
+                io.emit('update:product', req.body);
+                res.json(req.body);
+                db.close();
+            });
     })
 );
 
