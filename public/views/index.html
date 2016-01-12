@@ -590,11 +590,12 @@
                         </div>
                         <!-- /.col -->
                         <div class="col-sm-4 invoice-col">
+                            <input type="hidden" ng-model="invoice._id" value="{{invoice._id}}"/>
                             <b>Invoice</b> <input class="sleek" ng-model="invoice.number" ng-blur="saveInvoice()" type="number"><br>
                             <br>
-                            <b>Order ID:</b> 4F3S8J<br>
-                            <b>Payment Due:</b> 2/22/2014<br>
-                            <b>Account:</b> 968-34567
+                            <b>Order ID:</b> <input class="sleek" ng-model="invoice.orderNumber" ng-blur="saveInvoice()" type="text"><br>
+                            <b>Payment Due:</b> <input class="sleek" ng-model="invoice.paymentDueDate" ng-blur="saveInvoice()" type="date"><br>
+                            <b>Account:</b> <input class="sleek" ng-model="invoice.accountNumber" ng-blur="saveInvoice()" type="text">
                         </div>
                         <!-- /.col -->
                     </div>
