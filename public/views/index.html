@@ -620,7 +620,7 @@
                                         <input type="hidden" ng-model="invoice.products[$index]._id" value="{{invoice.products[$index]._id}}"/>
                                         <input class="sleek" ng-model="invoice.products[$index].quantity" type="number" min="1" style="width:auto"/>
                                     </td>
-                                    <td><input class="sleek" ng-model="invoice.products[$index].name" ng-blur="updateProduct(invoice.products[$index])" /></td>
+                                    <td><input class="sleek" ng-model="invoice.products[$index].name" ng-blur="saveProduct(invoice.products[$index])" ng-change="updateProduct({ '_id': invoice.products[$index]._id, 'discriminatorField': 'name', 'discriminatorValue': '{{invoice.products[$index].name}}', 'changeField': 'name' , 'oldValue': '{{invoice.products[$index].name}}', 'newValue':invoice.products[$index].name })"/></td>
                                     <td><input class="sleek" ng-model="invoice.products[$index].serialNumber" ng-change="updateProduct({ '_id': invoice.products[$index]._id, 'discriminatorField': 'name', 'discriminatorValue': '{{invoice.products[$index].name}}', 'changeField': 'serialNumber' , 'oldValue': '{{invoice.products[$index].serialNumber}}', 'newValue':invoice.products[$index].serialNumber })"/> </td>
                                     <td>$ <input class="sleek" ng-model="invoice.products[$index].amount" ng-blur="updateProduct(invoice.products[$index])"/></td>
                                     <td><a class="btn btn-app" ng-click="addNewProduct()"><i class="fa fa-plus"></i></a></td>

@@ -27,6 +27,7 @@ router.delete('/api/v1/products', (req, res, next) =>
 );
 
 router.post('/api/v1/products', (req, res, next) =>
+    !req.body._id &&
     MongoClient.connect("mongodb://test:test@ds039095.mongolab.com:39095/heroku_vt7zk583", (_, db) => {
         db.collection('products')
             .insert(req.body, {w: 1}, () => {
@@ -38,6 +39,7 @@ router.post('/api/v1/products', (req, res, next) =>
 );
 
 router.put('/api/v1/products', (req, res, next) =>
+    req.body._id &&
     MongoClient.connect("mongodb://test:test@ds039095.mongolab.com:39095/heroku_vt7zk583", (_, db) => {
         db.collection('products')
             .update({[req.body.discriminatorField]: req.body.discriminatorValue}, {$set: {[req.body.changeField]: req.body.newValue}}, {w: 1}, () => {

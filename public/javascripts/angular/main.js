@@ -27,8 +27,11 @@ angularApp.controller('HomeCtrl',
         };
 
         $scope.updateProduct = function (product) {
-            var restCall = product && product._id ? $http.put : $http.post;
-            restCall('/api/v1/products', product);
+            $http.put('/api/v1/products', product);
+        };
+
+        $scope.saveProduct = function (product) {
+            $http.post('/api/v1/products', product);
         };
 
         $scope.deleteUser = function () {
