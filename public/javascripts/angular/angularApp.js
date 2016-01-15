@@ -7,25 +7,12 @@ angularApp.config(function($stateProvider, $urlRouterProvider) {
         .state('home', {
             url: '/home',
             templateUrl: 'views/partials/home.html',
-            controller: 'HomeCtrl'
+            controller: 'DashboardCtrl'
         })
-        .state('login', {
-            url: '/login',
-            templateUrl: 'views/partials/login.html',
-            controller: 'LoginCtrl'
-        })
-        .state('steps', {
-            url: '/steps/:deploymentId',
-            templateUrl: 'views/partials/steps.html',
-            controller: 'StepsCtrl'
-        })
-        .state('users', {
-            url: '/users',
-            templateUrl: 'views/partials/users.html',
-            controller: 'UsersCtrl'
-        })
-        .state('logout', {
-            controller: 'MenuCtrl'
-        })
-    $urlRouterProvider.otherwise('login');
+        .state('invoice', {
+            url: '/invoice',
+            templateUrl: 'views/partials/invoice.html',
+            controller: 'InvoiceCtrl'
+        });
+    $urlRouterProvider.otherwise('home');
 });

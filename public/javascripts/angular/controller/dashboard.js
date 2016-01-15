@@ -1,4 +1,4 @@
-angularApp.controller('HomeCtrl',
+angularApp.controller('DashboardCtrl',
     ['$scope', '$http', 'socket', function ($scope, $http, socket) {
         $http.get('/api/v1/users').success(function (data) {
             $scope.users = data || [];
