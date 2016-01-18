@@ -38,7 +38,7 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 </head>
-<body class="hold-transition skin-blue sidebar-mini" ng-app="angularMain" ng-model-options="{ updateOn: 'change click blur' }">
+<body class="hold-transition skin-blue sidebar-mini" ng-app="angularMain">
 <div class="wrapper">
 
     <header class="main-header">
@@ -622,10 +622,16 @@
                                         <input class="sleek" ng-model="invoice.products[$index].quantity" type="number" min="1" style="width:auto"/>
                                     </td>
                                     <td><input class="sleek" ng-model="invoice.products[$index].name"
-                                               ng-change="invoice.products[$index]._id ? updateProduct({'_id': invoice.products[$index]._id, 'discriminatorField': 'name', 'discriminatorValue': '{{invoice.products[$index].name}}', 'changeField': 'name', 'oldValue': '{{invoice.products[$index].name}}', 'newValue': invoice.products[$index].name }) : saveProduct(invoice.products[$index])"/>
+                                               ng-model-options="{ updateOn: 'blur' }"
+                                               ng-change="invoice.products[$index]._id ? updateProduct({'_id': invoice.products[$index]._id, 'changeField': 'name', 'oldValue': '{{invoice.products[$index].name}}', 'newValue': invoice.products[$index].name }) : saveProduct(invoice.products[$index])"/>
                                     </td>
-                                    <td><input class="sleek" ng-model="invoice.products[$index].serialNumber" ng-change="updateProduct({ '_id': invoice.products[$index]._id, 'discriminatorField': 'name', 'discriminatorValue': '{{invoice.products[$index].name}}', 'changeField': 'serialNumber' , 'oldValue': '{{invoice.products[$index].serialNumber}}', 'newValue':invoice.products[$index].serialNumber })"/> </td>
-                                    <td>$ <input class="sleek" ng-model="invoice.products[$index].amount" ng-blur="updateProduct(invoice.products[$index])"/></td>
+                                    <td><input class="sleek" ng-model="invoice.products[$index].serialNumber"
+                                               ng-model-options="{ updateOn: 'blur' }"
+                                               ng-change="invoice.products[$index]._id ? updateProduct({'_id': invoice.products[$index]._id, 'changeField': 'serialNumber', 'oldValue': '{{invoice.products[$index].serialNumber}}', 'newValue': invoice.products[$index].serialNumber }) : saveProduct(invoice.products[$index])"/> </td>
+                                    <td>$ <input class="sleek" ng-model="invoice.products[$index].amount"
+                                                 ng-model-options="{ updateOn: 'blur' }"
+                                                 ng-change="invoice.products[$index]._id ? updateProduct({'_id': invoice.products[$index]._id, 'changeField': 'amount', 'oldValue': '{{invoice.products[$index].amount}}', 'newValue': invoice.products[$index].amount }) : saveProduct(invoice.products[$index])"/> </td>
+                                    </td>
                                     <td><a class="btn btn-app" ng-click="addNewProduct()"><i class="fa fa-plus"></i></a></td>
                                 </tr>
                                 </tbody>
@@ -936,8 +942,7 @@
                             <h3 class="box-title">Different Height</h3>
                         </div>
                         <div class="box-body">
-                            <input class="form-control input-lg" type="text" placeholder=".input-lg"
-                                   ng-model="user.name" ng-blur="addUser()" ng-click="deleteUser()">
+                            <input class="form-control input-lg" type="text" placeholder=".input-lg">
                             <br>
                             <input class="form-control" type="text" placeholder="Default input">
                             <br>
@@ -965,8 +970,7 @@
                                 </tr>
                                 <tr ng-repeat="user in users | orderBy: 'name'">
                                     <td>{{$index + 1}}.</td>
-                                    <td><input ng-model="user.name" ng-blur="updateUser()" value="{{user.name}}" /></td>
-                                    <!--<td contenteditable="true" ng-model="updatedUser.name" ng-blur="updateUser()">{{user.name}}</td>-->
+                                    <td><input type="text"/></td>
                                     <td>
                                         <div class="progress progress-xs">
                                             <div class="progress-bar progress-bar-danger" style="width: 55%"></div>
