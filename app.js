@@ -4,7 +4,6 @@ var path = require('path');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var usersApi = require('./routes/users');
 var invoicesApi = require('./routes/invoices');
 var productsApi = require('./routes/products');
 
@@ -17,7 +16,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/',
-    usersApi,
     invoicesApi,
     productsApi,
     function (req, res, next) {

@@ -561,7 +561,10 @@
                         <div class="col-xs-12">
                             <h2 class="page-header">
                                 <i class="fa fa-globe"></i> AdminLTE, Inc.
-                                <small class="pull-right">Date: <input class="sleek" ng-model="invoice.date" type="date"/> </small>
+                                <small class="pull-right">Date: <input class="sleek"
+                                                                       ng-model-options="{ updateOn: 'blur' }"
+                                                                       ng-model="invoice.date"
+                                                                       ng-change="invoice._id ? updateInvoice({'_id': invoice._id, 'changeField': 'date', 'oldValue': '{{invoice.date}}', 'newValue': invoice.date, 'collections': [invoice.products]}) : saveInvoice({'parent': invoice, 'collections': [invoice.products]})" type="date"/> </small>
                             </h2>
                         </div>
                         <!-- /.col -->
@@ -623,7 +626,7 @@
                                     </td>
                                     <td><input class="sleek" ng-model="invoice.products[$index].name"
                                                ng-model-options="{ updateOn: 'blur' }"
-                                               ng-change="invoice.products[$index]._id ? updateProduct({'_id': invoice.products[$index]._id, 'changeField': 'name', 'oldValue': '{{invoice.products[$index].name}}', 'newValue': invoice.products[$index].name }) : saveProduct(invoice.products[$index])"/>
+                                               ng-change="invoice._id ? updateInvoice({'_id': invoice._id, 'collection': 'products', 'collectionIndex': $index, 'changeField': 'name', 'oldValue': '{{invoice.products[$index].name}}', 'newValue': invoice.products[$index].name }) : saveInvoice(invoice)"/>
                                     </td>
                                     <td><input class="sleek" ng-model="invoice.products[$index].serialNumber"
                                                ng-model-options="{ updateOn: 'blur' }"
@@ -968,15 +971,15 @@
                                     <th>Progress</th>
                                     <th style="width: 40px">Label</th>
                                 </tr>
-                                <tr ng-repeat="user in users | orderBy: 'name'">
-                                    <td>{{$index + 1}}.</td>
+                                <tr>
+                                    <td>1</td>
                                     <td><input type="text"/></td>
                                     <td>
                                         <div class="progress progress-xs">
                                             <div class="progress-bar progress-bar-danger" style="width: 55%"></div>
                                         </div>
                                     </td>
-                                    <td><button ng-click="deleteProduct(user._id)">Delete</button></td>
+                                    <td><button>Delete</button></td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -992,42 +995,6 @@
                             </ul>
                         </div>
                     </div>
-
-                    <!-- Map box -->
-                    <!--<div class="box box-solid bg-light-blue-gradient">
-                      <div class="box-header">
-                        &lt;!&ndash; tools box &ndash;&gt;
-                        <div class="pull-right box-tools">
-                          <button class="btn btn-primary btn-sm daterange pull-right" data-toggle="tooltip" title="Date range"><i class="fa fa-calendar"></i></button>
-                          <button class="btn btn-primary btn-sm pull-right" data-widget="collapse" data-toggle="tooltip" title="Collapse" style="margin-right: 5px;"><i class="fa fa-minus"></i></button>
-                        </div>&lt;!&ndash; /. tools &ndash;&gt;
-
-                        <i class="fa fa-map-marker"></i>
-                        <h3 class="box-title">
-                          Visitors
-                        </h3>
-                      </div>
-                      <div class="box-body">
-                        <div id="world-map" style="height: 250px; width: 100%;"></div>
-                      </div>&lt;!&ndash; /.box-body&ndash;&gt;
-                      <div class="box-footer no-border">
-                        <div class="row">
-                          <div class="col-xs-4 text-center" style="border-right: 1px solid #f4f4f4">
-                            <div id="sparkline-1"></div>
-                            <div class="knob-label">Visitors</div>
-                          </div>&lt;!&ndash; ./col &ndash;&gt;
-                          <div class="col-xs-4 text-center" style="border-right: 1px solid #f4f4f4">
-                            <div id="sparkline-2"></div>
-                            <div class="knob-label">Online</div>
-                          </div>&lt;!&ndash; ./col &ndash;&gt;
-                          <div class="col-xs-4 text-center">
-                            <div id="sparkline-3"></div>
-                            <div class="knob-label">Exists</div>
-                          </div>&lt;!&ndash; ./col &ndash;&gt;
-                        </div>&lt;!&ndash; /.row &ndash;&gt;
-                      </div>
-                    </div>-->
-                    <!-- /.box -->
 
                     <!-- solid sales graph -->
                     <div class="box box-solid bg-teal-gradient">

@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var io = require('../io');
 var MongoClient = require('mongodb').MongoClient;
+var ObjectID = require('mongodb').ObjectID;
 
 router.get('/api/v1/invoices/:discriminatorField/:discriminatorValue', (req, res, next) =>
     MongoClient.connect("mongodb://test:test@ds039095.mongolab.com:39095/heroku_vt7zk583", (_, db) => {
@@ -38,10 +39,11 @@ router.post('/api/v1/invoices', (req, res, next) =>
 
 router.put('/api/v1/invoices', (req, res, next) =>
     MongoClient.connect("mongodb://test:test@ds039095.mongolab.com:39095/heroku_vt7zk583", (_, db) => {
+        var body = req.body, col = body.collection ? body.collection + '.' : '', colIdx = String(body.collectionIndex) &&  body.collectionIndex >= 0 ? body.collectionIndex + '.' : '';
         db.collection('invoices')
-            .update({[req.body.discriminatorField]: req.body.discriminatorValue}, {$set: {[req.body.changeField]: req.body.newValue}}, {w: 1}, () => {
+            .update({'_id': ObjectID(body._id)}, {$set: {[col + colIdx + body.changeField]: body.newValue}}, {w: 1}, () => {
                 io.emit('update:invoice', req.body);
-                res.json(req.body);
+                res.json(body);
                 db.close();
             });
     })

@@ -1,25 +1,17 @@
 angularApp.controller('HomeCtrl',
     ['$scope', '$http', 'socket', function ($scope, $http, socket) {
-        $http.get('/api/v1/users').success(function (data) {
-            $scope.users = data || [];
-        });
-
         $scope.invoice = {'products': [{'_id': undefined, 'quantity': 1, 'name': '', 'serialNumber': '', 'amount': 0}]};
 
         $scope.addNewProduct = function () {
             $scope.invoice.products.push({'_id': undefined, 'quantity': 1, 'name': '', 'serialNumber': '', 'amount': 0});
         };
 
-        $scope.addUser = function () {
-            $http.post('/api/v1/users', $scope.user);
-        };
-
-        $scope.updateUser = function () {
-            $http.put('/api/v1/users', $scope.user);
-        };
-
         $scope.saveInvoice = function () {
             $http.post('/api/v1/invoices', $scope.invoice);
+        };
+
+        $scope.updateInvoice = function (invoice) {
+            $http.put('/api/v1/invoices', invoice);
         };
 
         $scope.deleteProduct = function () {
@@ -34,11 +26,6 @@ angularApp.controller('HomeCtrl',
             $http.post('/api/v1/products', product);
         };
 
-        $scope.deleteUser = function () {
-            $http.delete('/api/v1/users', $scope.user);
-        };
-
-        $scope.savedProducts = {};
         socket.on('save:product', function (product) {
             $scope.invoice.products.filter(function (prod, idx, arr) {
                 if (prod.name === product.name) {
@@ -48,10 +35,7 @@ angularApp.controller('HomeCtrl',
         });
 
         socket.on('save:invoice', function (invoice) {
-            alert('Invoice #' + invoice.number + ' saved');
+            $scope.invoice._id = invoice._id;
         });
 
-        socket.on('save:user', function (user) {
-            $scope.users.push(user);
-        });
     }]);
