@@ -38,7 +38,7 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 </head>
-<body class="hold-transition skin-blue sidebar-mini" ng-app="angularMain">
+<body class="hold-transition skin-blue sidebar-mini" ng-app="angularMain" ng-model-options="{ updateOn: 'change click blur' }">
 <div class="wrapper">
 
     <header class="main-header">
@@ -622,7 +622,6 @@
                                         <input class="sleek" ng-model="invoice.products[$index].quantity" type="number" min="1" style="width:auto"/>
                                     </td>
                                     <td><input class="sleek" ng-model="invoice.products[$index].name"
-                                               ng-model-options="{updateOn: 'blur'}"
                                                ng-change="invoice.products[$index]._id ? updateProduct({'_id': invoice.products[$index]._id, 'discriminatorField': 'name', 'discriminatorValue': '{{invoice.products[$index].name}}', 'changeField': 'name', 'oldValue': '{{invoice.products[$index].name}}', 'newValue': invoice.products[$index].name }) : saveProduct(invoice.products[$index])"/>
                                     </td>
                                     <td><input class="sleek" ng-model="invoice.products[$index].serialNumber" ng-change="updateProduct({ '_id': invoice.products[$index]._id, 'discriminatorField': 'name', 'discriminatorValue': '{{invoice.products[$index].name}}', 'changeField': 'serialNumber' , 'oldValue': '{{invoice.products[$index].serialNumber}}', 'newValue':invoice.products[$index].serialNumber })"/> </td>
